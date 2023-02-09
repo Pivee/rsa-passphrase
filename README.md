@@ -1,6 +1,6 @@
 # RSA Passphrase
 
-This is CLI tool made to generate RSA keys, and test JWT signing using those keys.
+This is a CLI tool made to generate RSA keys, and test JWT signing using those keys.
 
 You can use `rsp` to access this using the terminal when you install this as a global package because the following config has been added to the `package.json` file.
 
