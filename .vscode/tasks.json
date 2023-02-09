@@ -1,0 +1,11 @@
+{
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "problemMatcher": [],
+      "label": "Run application",
+      "detail": "node ./dist"
+    }
+  ]
+}
