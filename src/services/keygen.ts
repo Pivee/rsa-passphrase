@@ -39,9 +39,12 @@ export class KeygenService {
     let generatePublicKeyCommand =
       "openssl rsa -in ./certs/private.pem -pubout -out ./certs/public.pem";
 
-    if (passphrase)
+    if (passphrase) {
       generatePublicKeyCommand =
         generatePublicKeyCommand + ` -passout pass:${passphrase}`;
+
+      fs.writeFileSync("./certs/passphrase.txt", passphrase);
+    }
 
     console.info(
       `⏳ Generating public key${
