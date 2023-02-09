@@ -14,7 +14,7 @@ export class CryptoService {
     }
   }
 
-  static createCipher(message: string) {
+  static createCipher(message: string, passphrase = "") {
     const privateKey = fs
       .readFileSync(join("./certs/private.pem"))
       .toString("utf8");
@@ -23,9 +23,13 @@ export class CryptoService {
     try {
       console.log("📄 Plain Text:", message);
 
-      cipher = sign(message, privateKey, {
-        algorithm: "RS256",
-      });
+      cipher = sign(
+        message,
+        { key: privateKey, passphrase: passphrase },
+        {
+          algorithm: "RS256",
+        }
+      );
 
       console.log("🔒 Encrypted:", cipher);
 
@@ -33,13 +37,14 @@ export class CryptoService {
 
       fs.writeFileSync(join(".temp/message.txt"), message);
       fs.writeFileSync(join(".temp/message-cipher.txt"), cipher);
+      fs.writeFileSync(join(".temp/message-cipher-passphrase.txt"), passphrase);
     } catch (error) {
       console.error(error);
     }
   }
 
   static verifyCipher(passphrase?: string) {
-    const privateKey = fs.readFileSync(join("./certs/private.pem"));
+    const publicKey = fs.readFileSync(join("./certs/public.pem"));
 
     const cipher = fs
       .readFileSync(join(".temp/message-cipher.txt"))
@@ -50,19 +55,13 @@ export class CryptoService {
         console.log(
           "✅ Verified:",
           verify(cipher, {
-            key: privateKey,
+            key: publicKey,
             passphrase: passphrase || "",
           })
         );
       } else {
         console.log("⚠️ Verifying without passphrase");
-        console.log(
-          "✅ Verified:",
-          verify(cipher, {
-            key: privateKey,
-            passphrase: "",
-          })
-        );
+        console.log("✅ Verified:", verify(cipher, publicKey));
       }
     } catch (error) {
       console.error(error);

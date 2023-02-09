@@ -49,8 +49,9 @@ program
   .command("create-cipher")
   .description("Create cipher")
   .option("-m, --message [message]", "Text to encrypt")
+  .option("-p, --pass [passphrase]", "Use passphrase")
   .action((options) => {
-    CryptoService.createCipher(options.message);
+    CryptoService.createCipher(options.message, options.pass);
   });
 
 program
