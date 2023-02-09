@@ -2,16 +2,24 @@
 
 import figlet from "figlet";
 import { Command } from "commander";
+import { PrintService } from "./services/print";
 
-console.log(figlet.textSync("RSA Passphrase", { font: "Small" }));
+const APP_NAME = "RSA Passphrase";
+const APP_VERSION = "1.0.0";
+const APP_DESCRIPTION = "Testing tool for RSA Passphrase Utilization";
+
+console.log(figlet.textSync(APP_NAME, { font: "Small" }));
 
 const program = new Command()
-  .version("1.0.0")
-  .description("Testing tool for RSA Passphrase Utilization")
-  .option(
-    "-g, --generate <passphrase>",
-    "Generate new RSA Private Key with an optional passphrase"
-  )
-  .parse(process.argv);
+  .name(APP_NAME)
+  .version(APP_VERSION)
+  .description(APP_DESCRIPTION);
 
-const options = program.opts();
+program
+  .command("message")
+  .option("-m, --message [message]", "Print a message", "Hello World!")
+  .action((options) => {
+    if (options.message) PrintService.printToConsole(options.message);
+  });
+
+program.parse();
