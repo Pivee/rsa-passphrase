@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc -w",
     "start": "node ./dist",
-    "build": "tsc"
+    "build": "tsc && npm i -g"
   },
   "keywords": [],
   "author": "",
