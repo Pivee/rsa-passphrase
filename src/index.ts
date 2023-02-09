@@ -1,10 +1,15 @@
 import figlet from "figlet";
 import { Command } from "commander";
 
+console.log(figlet.textSync("RSA Passphrase", { font: "Small" }));
+
 const program = new Command()
   .version("1.0.0")
   .description("Testing tool for RSA Passphrase Utilization")
-  .option("-g, --generate", "Generate new RSA Private Key")
+  .option(
+    "-g, --generate <passphrase>",
+    "Generate new RSA Private Key with an optional passphrase"
+  )
   .parse(process.argv);
 
-console.log(figlet.textSync("RSA Passphrase", { font: "Small" }));
+const options = program.opts();
