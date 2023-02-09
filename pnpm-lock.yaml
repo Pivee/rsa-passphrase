@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@types/figlet': ^1.5.5
+  '@types/node': ^18.13.0
   commander: ^10.0.0
   figlet: ^1.5.2
   jsonwebtoken: ^9.0.0
@@ -13,11 +14,16 @@ dependencies:
 
 devDependencies:
   '@types/figlet': 1.5.5
+  '@types/node': 18.13.0
 
 packages:
 
   /@types/figlet/1.5.5:
     resolution: {integrity: sha512-0sMBeFoqdGgdXoR/hgKYSWMpFufSpToosNsI2VgmkPqZJgeEXsXNu2hGr0FN401dBro2tNO5y2D6uw3UxVaxbg==}
+    dev: true
+
+  /@types/node/18.13.0:
+    resolution: {integrity: sha512-gC3TazRzGoOnoKAhUx+Q0t8S9Tzs74z7m0ipwGpSqQrleP14hKxP4/JUeEQcD3W1/aIpnWl8pHowI7WokuZpXg==}
     dev: true
 
   /buffer-equal-constant-time/1.0.1:

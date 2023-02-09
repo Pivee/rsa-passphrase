@@ -15,6 +15,7 @@
     "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
-    "@types/figlet": "^1.5.5"
+    "@types/figlet": "^1.5.5",
+    "@types/node": "^18.13.0"
   }
 }
