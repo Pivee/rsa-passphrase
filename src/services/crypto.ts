@@ -15,15 +15,12 @@ export class CryptoService {
   }
 
   static createCipher(message: string, passphrase = "") {
-    const privateKey = fs
-      .readFileSync(join("./certs/private.pem"))
-      .toString("utf8");
+    const privateKey = this.getPrivateKey();
 
-    let cipher = "";
     try {
       console.log("📄 Plain Text:", message);
 
-      cipher = sign(
+      const cipher = sign(
         message,
         { key: privateKey, passphrase: passphrase },
         {
@@ -44,11 +41,9 @@ export class CryptoService {
   }
 
   static verifyCipher(passphrase?: string) {
-    const publicKey = fs.readFileSync(join("./certs/public.pem"));
+    const publicKey = this.getPublicKey();
 
-    const cipher = fs
-      .readFileSync(join(".temp/message-cipher.txt"))
-      .toString("utf8");
+    const cipher = this.getCipherText();
 
     try {
       if (passphrase) {
@@ -66,5 +61,17 @@ export class CryptoService {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  static getPrivateKey() {
+    return fs.readFileSync(join("./certs/private.pem")).toString("utf8");
+  }
+
+  static getPublicKey() {
+    return fs.readFileSync(join("./certs/public.pem"));
+  }
+
+  static getCipherText() {
+    return fs.readFileSync(join(".temp/message-cipher.txt")).toString("utf8");
   }
 }
