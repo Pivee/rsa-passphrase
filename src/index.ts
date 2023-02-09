@@ -5,6 +5,7 @@ import figlet from "figlet";
 import * as fs from "fs";
 import { sign, verify } from "jsonwebtoken";
 import { join } from "path";
+import { CryptoService } from "./services/crypto";
 import { KeygenService } from "./services/keygen";
 import { PrintService } from "./services/print";
 
@@ -45,48 +46,18 @@ program
   });
 
 program
-  .command("verify-signature")
+  .command("create-cipher")
+  .description("Create cipher")
+  .option("-m, --message [message]", "Text to encrypt")
+  .action((options) => {
+    CryptoService.createCipher(options.message);
+  });
+
+program
+  .command("verify")
   .option("-p, --pass [passphrase]", "Use passphrase")
   .action((options) => {
-    const privateKey = fs.readFileSync(join(__dirname, "../certs/private.pem"));
-    const publicKey = fs.readFileSync(join(__dirname, "../certs/private.pem"));
-
-    let message = "";
-    let cipher = "";
-    try {
-      message = fs.readFileSync(join(".temp/message.txt")).toString("utf8");
-
-      console.log("📄 Plain Text:", message);
-
-      cipher = sign(message, publicKey, {
-        algorithm: "RS256",
-      });
-
-      console.log("🔒 Encrypted:", cipher);
-
-      fs.writeFileSync(join(".temp/message-cipher.txt"), cipher);
-    } catch (error) {
-      console.error(error);
-    }
-
-    if (options.pass) {
-      console.log(
-        "✅ Verified:",
-        verify(cipher, {
-          key: privateKey,
-          passphrase: options.pass,
-        })
-      );
-    } else {
-      console.log("⚠️ Verifying without passphrase");
-      console.log(
-        "✅ Verified:",
-        verify(cipher, {
-          key: privateKey,
-          passphrase: "",
-        })
-      );
-    }
+    CryptoService.verifyCipher(options.passphrase);
   });
 
 program.parse();
